@@ -1,4 +1,7 @@
 import pandas as pd
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class Reader:
@@ -10,5 +13,5 @@ class Reader:
         self.data_dir = data_dir
 
     def reader(self):
-        print(pd.read_parquet(self.data_dir).columns)
+        logger.info("Reading in source file")
         return pd.read_parquet(self.data_dir)
