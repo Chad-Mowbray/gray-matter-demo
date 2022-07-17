@@ -4,6 +4,7 @@ from processor.Analyzer import Analyzer
 from processor.Reader import Reader
 from processor.Cleaner import Cleaner
 from processor.ColumnRemover import ColumnRemover
+from processor.Writer import Writer
 import logging
 
 logging.basicConfig(
@@ -12,10 +13,15 @@ logging.basicConfig(
 
 
 class Main:
-    def __init__(self, data_loc, remove_useless_cols, fill_strategy):
+    def __init__(
+        self, data_loc, remove_useless_cols, fill_strategy, output_dir, output_fmt
+    ):
         self.data_loc = data_loc
         self.remove_useless_cols = remove_useless_cols
         self.fill_strategy = fill_strategy
+        self.output_dir = output_dir
+        self.output_fmt = output_fmt
+        self.writer = Writer(self.output_dir)
 
     def do_read(self):
         r = Reader(self.data_loc)
@@ -39,24 +45,28 @@ class Main:
         df = self.do_clean(df)
         return df
 
-    def analyze(self, df):
-        a = Analyzer(df)
-        df = a.group_by("payment_type")
-        print(df)
-        df = a.group_by("year")
-        print(df)
-        df = a.group_by("month")
-        print(df)
+    def analyze(self, analyzer, group):
+        df = analyzer.group_by(group)
+        return df
 
     def main(self):
         df = self.initial_processing()
-        # print(df.dtypes)
-        self.analyze(df)
+        a = Analyzer(df)
+        for group in ["payment_type", "year", "month"]:
+            output_df = self.analyze(a, group)
+            self.writer.write(output_df, group, self.output_fmt)
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Presents summary statistics")
     parser.add_argument("-data_source", help="path to source data", required=True)
+    parser.add_argument("-data_dest", help="path to output data dir", required=True)
+    parser.add_argument(
+        "-output_format",
+        help="Format of output dataframes (csv, parquet)",
+        choices=["csv", "parquet"],
+        required=True,
+    )
     parser.add_argument(
         "-remove_useless_cols",
         help="Remove cost-related columns that have no values",
@@ -71,11 +81,13 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
     data_source = args.data_source
+    data_dest = args.data_dest
+    output_format = args.output_format
     remove_useless_cols = args.remove_useless_cols
     fill_strategy = args.fill_strategy
     logging.info(
-        f"Running with -data_source {data_source} -remove_useless_cols {remove_useless_cols} -fill_strategy {fill_strategy}"
+        f"Running with -data_source {data_source} -data_dest {data_dest} -output_format {output_format} -remove_useless_cols {remove_useless_cols} -fill_strategy {fill_strategy}"
     )
 
-    m = Main(data_source, remove_useless_cols, fill_strategy)
+    m = Main(data_source, remove_useless_cols, fill_strategy, data_dest, output_format)
     m.main()
