@@ -1,6 +1,6 @@
 import pandas as pd
 import argparse
-
+from classes.Analyzer import Analyzer
 from classes.Reader import Reader
 from classes.Cleaner import Cleaner
 from classes.ColumnRemover import ColumnRemover
@@ -30,12 +30,28 @@ class Main:
         df = c.df
         return df
 
-    def main(self):
+    def initial_processing(self):
         df = self.do_read()
         df = self.do_column_removal(df)
         df = self.do_clean(df)
+        return df
 
+    def analyze(self, df):
+        a = Analyzer(df)
+        df = a.price_passenger_per_payment_type()
         print(df)
+        df = a.price_passenger_per_year()
+        print(df)
+        df = a.price_passenger_per_month()
+        print(df)
+
+    def main(self):
+        df = self.initial_processing()
+        print(df.dtypes)
+        res_df = self.analyze(df)
+        print(res_df)
+
+        # print(df)
 
 
 money_cols_excluding_total = [

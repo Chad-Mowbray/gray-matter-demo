@@ -1,4 +1,7 @@
-class ColumnRemover:
+from .TimeFormatterMixin import TimeFormatterMixin
+
+
+class ColumnRemover(TimeFormatterMixin):
     """
     Class to produce a DF with only the necessary columns
     """
@@ -24,8 +27,9 @@ class ColumnRemover:
     REQUIRED_COLS = ALL_COST_COLS + TIME_COLS + PASSENGER_COUNT + PAYMENT_TYPE
 
     def __init__(self, df, remove_useless_cols):
-        self.df = df[self.REQUIRED_COLS]
+        self.df = df
         self.useless_columns = []
+        self.process()
         if remove_useless_cols:
             self.check_for_useless_numeric_columns()
             self.drop_meaningless_columns()
@@ -37,3 +41,11 @@ class ColumnRemover:
     def drop_meaningless_columns(self):
         if self.useless_columns:
             self.df = self.df.drop(columns=self.useless_columns)
+
+    def process(self):
+        df = self.df[self.REQUIRED_COLS]
+        df = self.add_exracted_month_col(df)
+        df = self.add_extracted_year_col(df)
+        df = self.remove_original_timestamps(df)
+
+        self.df = df

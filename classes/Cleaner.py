@@ -23,3 +23,5 @@ class Cleaner:
 
     def replace_null_values_with_mean(self):
         self.df = self.df.apply(lambda x: x.fillna(x.mean()), axis=0)
+
+    #### Drop rows where sum of costs greater than fare_amount
