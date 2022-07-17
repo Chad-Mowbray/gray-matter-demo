@@ -1,11 +1,14 @@
 import pandas as pd
 import argparse
-from classes.Analyzer import Analyzer
-from classes.Reader import Reader
-from classes.Cleaner import Cleaner
-from classes.ColumnRemover import ColumnRemover
+from processor.Analyzer import Analyzer
+from processor.Reader import Reader
+from processor.Cleaner import Cleaner
+from processor.ColumnRemover import ColumnRemover
+import logging
 
-# airport_fee has no values
+logging.basicConfig(
+    level=logging.DEBUG, format="'%(asctime)s - %(levelname)s - %(message)s"
+)
 
 
 class Main:
@@ -38,33 +41,18 @@ class Main:
 
     def analyze(self, df):
         a = Analyzer(df)
-        df = a.price_passenger_per_payment_type()
+        df = a.group_by("payment_type")
         print(df)
-        df = a.price_passenger_per_year()
+        df = a.group_by("year")
         print(df)
-        df = a.price_passenger_per_month()
+        df = a.group_by("month")
         print(df)
 
     def main(self):
         df = self.initial_processing()
-        print(df.dtypes)
-        res_df = self.analyze(df)
-        print(res_df)
+        # print(df.dtypes)
+        self.analyze(df)
 
-        # print(df)
-
-
-money_cols_excluding_total = [
-    "fare_amount",
-    "extra",
-    "mta_tax",
-    "tip_amount",
-    "tolls_amount",
-    "improvement_surcharge",
-    "congestion_surcharge",
-    # "airport_fee",
-]
-total_amount = ["total_amount"]
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Presents summary statistics")
@@ -76,15 +64,18 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         "-fill_strategy",
-        help="How to handle null values in cost-related columns",
+        help="How to handle null values in cost-related columns (remove, mean)",
         choices=["remove", "mean"],
         required=True,
     )
 
     args = parser.parse_args()
-    data_loc = args.data_source
+    data_source = args.data_source
     remove_useless_cols = args.remove_useless_cols
     fill_strategy = args.fill_strategy
+    logging.info(
+        f"Running with -data_source {data_source} -remove_useless_cols {remove_useless_cols} -fill_strategy {fill_strategy}"
+    )
 
-    m = Main(data_loc, remove_useless_cols, fill_strategy)
+    m = Main(data_source, remove_useless_cols, fill_strategy)
     m.main()
