@@ -22,6 +22,7 @@ class Main:
         self.output_dir = output_dir
         self.output_fmt = output_fmt
         self.writer = Writer(self.output_dir)
+        self.groups = ["payment_type", "year", "month"]
 
     def do_read(self):
         r = Reader(self.data_loc)
@@ -52,7 +53,7 @@ class Main:
     def main(self):
         df = self.initial_processing()
         a = Analyzer(df)
-        for group in ["payment_type", "year", "month"]:
+        for group in self.groups:
             output_df = self.analyze(a, group)
             self.writer.write(output_df, group, self.output_fmt)
 

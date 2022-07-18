@@ -6,7 +6,7 @@ logger = logging.getLogger(__name__)
 class Analyzer:
     def __init__(self, df):
         self.df = df
-        self.default_terms = ["fare_amount", "passenger_count"]
+        self.default_terms = ["total_amount", "passenger_count"]
 
     def group_by(self, group, terms=None):
         terms = terms if terms else self.default_terms
