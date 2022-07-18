@@ -7,7 +7,7 @@ logger = logging.getLogger(__name__)
 
 class ColumnRemover(TimeFormatterMixin):
     """
-    Class to produce a DF with only the necessary columns
+    Class to exclude unnecessary columns from the dataframe
     """
 
     def __init__(self, df, remove_useless_cols):

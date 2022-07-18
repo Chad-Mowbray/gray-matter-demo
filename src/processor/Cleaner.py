@@ -5,7 +5,7 @@ logger = logging.getLogger(__name__)
 
 class Cleaner:
     """
-    Class to produce a clean DF
+    Class to clean and transform a dataframe
     """
 
     def __init__(self, raw_df, fill_strategy):

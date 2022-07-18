@@ -8,6 +8,12 @@ from main import Main
 
 
 class TestMain(unittest.TestCase):
+    """
+    "End-to-End" tests for each of the required queries.
+    Files/folders used during the tests are created/cleaned up 
+    as needed.
+    """
+    
     @classmethod
     def setUpClass(cls):
         output_path = Path.cwd() / "test_output_data"

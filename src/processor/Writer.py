@@ -8,6 +8,10 @@ logger = logging.getLogger(__name__)
 
 
 class Writer:
+    """
+    Handles writing the final dataframes to either csv or parquet
+    """
+    
     def __init__(self, output_dir):
         self.output_dir = output_dir
         self.path = Path.cwd() / self.output_dir

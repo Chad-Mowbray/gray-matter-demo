@@ -13,6 +13,16 @@ logging.basicConfig(
 
 
 class Main:
+    """
+    Handles coordinating and running the application.
+    It receives command line arguments and
+        1. Reads in source data, transforming it into a dataframe
+        2. Removes excess columns 
+        3. Cleans the dataframe
+        4. Runs the analysis (queries)
+        5. Writes the query results to the output directory
+    """
+    
     def __init__(
         self, data_loc, remove_useless_cols, fill_strategy, output_dir, output_fmt
     ):

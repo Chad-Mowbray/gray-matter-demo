@@ -6,7 +6,7 @@ logger = logging.getLogger(__name__)
 
 class Reader:
     """
-    Class to produce a DF from an input source
+    Class to read in a parquet file and output a dataframe
     """
 
     def __init__(self, data_dir):

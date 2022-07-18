@@ -9,6 +9,11 @@ from processor.Analyzer import Analyzer
 
 class TestMain(unittest.TestCase):
     def test_analyzer_groups_properly(self):
+        """
+        Ensures that the Analyzer correctly
+        groups the mean of two columns by a third
+        """
+        
         d = {
             "category": ["a", "b", "c", "c"],
             "price": [3, 4, 50, 100],

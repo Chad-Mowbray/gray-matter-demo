@@ -4,6 +4,11 @@ logger = logging.getLogger(__name__)
 
 
 class Analyzer:
+    """
+    Handles analytical operations on a dataframe.
+    In this case, grouping the mean of two columns by a third
+    """
+    
     def __init__(self, df):
         self.df = df
         self.default_terms = ["total_amount", "passenger_count"]

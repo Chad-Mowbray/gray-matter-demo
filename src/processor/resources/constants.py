@@ -1,3 +1,8 @@
+"""
+Constants used in the rest of the application.
+For now, just column names
+"""
+
 ALL_COST_COLS = [
     "fare_amount",
     "extra",

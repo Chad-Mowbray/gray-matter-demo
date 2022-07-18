@@ -3,6 +3,11 @@ from ..resources.constants import TIME_COLS, PICKUP_TS
 
 
 class TimeFormatterMixin:
+    """
+    A mixin used by ColumnRemover to transform
+    timestamps into year and month
+    """
+    
     @staticmethod
     def add_exracted_month_col(df):
         df = df.copy()
