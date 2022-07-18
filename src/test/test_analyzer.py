@@ -3,7 +3,7 @@ import pandas as pd
 import sys
 from pathlib import Path
 
-sys.path.append("../")
+# sys.path.append("../")
 from processor.Analyzer import Analyzer
 
 

@@ -28,10 +28,10 @@ class TestMain(unittest.TestCase):
         return super().tearDown()
 
     def test_by_payment_type_output(self):
-        expected = pd.read_parquet("test_input_data/payment_output.parquet")
+        expected = pd.read_parquet("test/test_input_data/payment_output.parquet")
 
         m = Main(
-            "test_input_data/testDF.parquet",
+            "test/test_input_data/testDF.parquet",
             True,
             "remove",
             "test_output_data",
@@ -44,10 +44,10 @@ class TestMain(unittest.TestCase):
         pd.testing.assert_frame_equal(expected, actual)
 
     def test_by_year_output(self):
-        expected = pd.read_parquet("test_input_data/year_output.parquet")
+        expected = pd.read_parquet("test/test_input_data/year_output.parquet")
 
         m = Main(
-            "test_input_data/testDF.parquet",
+            "test/test_input_data/testDF.parquet",
             True,
             "remove",
             "test_output_data",
@@ -60,10 +60,10 @@ class TestMain(unittest.TestCase):
         pd.testing.assert_frame_equal(expected, actual)
 
     def test_by_month_output(self):
-        expected = pd.read_parquet("test_input_data/month_output.parquet")
+        expected = pd.read_parquet("test/test_input_data/month_output.parquet")
 
         m = Main(
-            "test_input_data/testDF.parquet",
+            "test/test_input_data/testDF.parquet",
             True,
             "remove",
             "test_output_data",
