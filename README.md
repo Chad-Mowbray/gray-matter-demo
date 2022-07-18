@@ -10,7 +10,7 @@
 
 ## How to Use
 - After cloning the repo locally...
-- Ensure that you are using a recent version of Python (build is tested on Python 3.8, 3.9, and 3.10).
+- Ensure that you are using a recent version of Python (Github actions is set up to test the build on Python 3.8, 3.9, and 3.10).
 - Activate a virtual environment and install from `requirements.txt`: `pip install -r requirements.txt`
 - `cd` into `src`
 - From there you can run the unit tests: `python -m unittest` as a sanity check.
